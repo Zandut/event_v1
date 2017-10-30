@@ -11,4 +11,4 @@
 |
 */
 
-$app->get('/get_events', 'EventController@get_events');
+$app->post('/login', 'UserController@login');

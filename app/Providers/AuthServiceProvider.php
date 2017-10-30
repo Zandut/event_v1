@@ -31,8 +31,59 @@ class AuthServiceProvider extends ServiceProvider
         // the User instance via an API token or any other method necessary.
 
         $this->app['auth']->viaRequest('api', function ($request) {
-            if ($request->input('api_token')) {
-                return User::where('api_token', $request->input('api_token'))->first();
+          if ($request->header('Authorization')) {
+             $key = explode(' ',$request->header('Authorization'));
+             $user = User::where(['api_key' => $key[0]])->first();
+              if(!empty($user))
+              {
+
+                  //define authorize create_user
+                  Gate::define('create_user', function($user)
+                  {
+                    //role_id = 1 adalah SuperAdmin, role_id = 2 adalah User
+                    if ($user->role_id == '1')
+                      return true;
+                    else
+                      return true;
+                  });
+
+                  //define authorize create_event
+                  Gate::define('create_event', function($user)
+                  {
+                    //role_id = 1 adalah SuperAdmin, role_id = 2 adalah User
+                    if ($user->role_id == '1')
+                      return true;
+                    else
+                      return true;
+                  });
+
+                  //define authorize approve_event
+                  Gate::define('approve_event', function($user)
+                  {
+                    //role_id = 1 adalah SuperAdmin, role_id = 2 adalah User
+                    if ($user->role_id == '1')
+                      return true;
+                    else
+                      return false;
+                  });
+
+                  //define authorize get_events
+                  Gate::define('get_events', function($user)
+                  {
+                    //role_id = 1 adalah SuperAdmin, role_id = 2 adalah User
+                    if ($user->role_id == '1')
+                      return true;
+                    else
+                      return true;
+                  });
+
+
+
+                  $request->request->add(['userid' => $user->id]);
+
+              }
+
+              return $user;
             }
         });
     }

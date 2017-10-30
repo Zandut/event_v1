@@ -9,19 +9,27 @@ use App\Models\Event;
  */
 class EventController extends BaseController
 {
+    // Parameter : -
+    // Method : GET
     public function get_events()
     {
-      # code...
+      
+      // Ambil data event join category
       $data = Event::join('categories', 'categories.id', '=', 'events.category_id')->get();
+
       if (isset($data[0]))
       {
+        // jika indeks ke-0 array data, status = 1 (true)
         $status = '1';
       }
       else {
+        //status = 0 (false)
         $status = '0';
       }
 
-      return response()->json(['status' => $status, 'data' => $data]);
+      $json = ['status' => $status, 'data' => $data];
+      //struktur json : status (jsonObject), data (jsonArray)
+      return response()->json($json);
 
     }
 }

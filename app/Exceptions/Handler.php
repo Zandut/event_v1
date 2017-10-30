@@ -45,6 +45,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        return parent::render($request, $e);
+      if ($e instanceof AuthorizationException)
+      {
+        return response()->json(['error' => $e->getMessage()], 403);
+      }
+      return parent::render($request, $e);
     }
 }
