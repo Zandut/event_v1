@@ -52,7 +52,7 @@ class Handler extends ExceptionHandler
         // message dan HTTP code (403)
         return response()->json(['error' => $e->getMessage()], 403);
       }
-      
+
       return parent::render($request, $e);
     }
 }
