@@ -17,7 +17,7 @@ $app->post('/login', 'UserController@login');
 $app->get('/get_events', 'EventController@get_events');
 
 
-$app->group(['middleware' => 'auth'], function()
+$app->group(['middleware' => 'auth'], function($app)
 {
     $app->post('/create_user', 'UserController@create_user');
 
