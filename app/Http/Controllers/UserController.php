@@ -30,12 +30,11 @@ class UserController extends BaseController
       // jika validasi gagal
       if ($validator->fails())
       {
-        // array error
-        $error = ['email' => $validator->errors()->first('email'), 'password' => $validator->errors()->first('password'),
-          'user_name' => $validator->errors()->first('user_name'), 'role_id' => $validator->errors->first('role_id')];
+
 
         //struktur json
-        $json = ['status' => '0', 'error' => $error];
+
+        $json = ['status' => '0', 'error' => $validator->errors()];
         //HTTP Code
         $code = 400;
       }
@@ -43,14 +42,18 @@ class UserController extends BaseController
       {
         //api_key random 40 char
         $apikey = base64_encode(str_random(40));
-        //create User
-        $data = User::create(['email' => $request['email'], 'password' => md5($request['password']),
-          'user_name' => $request['user_name'], 'role_id' => $request['role_id'], 'api_key' => $apikey]);
 
-        //struktur json
-        $json = ['status' => '1', 'api_key' => $apikey];
-        //HTTP code
-        $code = 200;
+          //create User
+          $data = User::create(['email' => $request['email'], 'password' => md5($request['password']),
+            'user_name' => $request['user_name'], 'role_id' => $request['role_id'], 'api_key' => $apikey]);
+
+          //struktur json
+          $json = ['status' => '1', 'api_key' => $apikey];
+          //HTTP code
+          $code = 200;
+
+
+
       }
 
       return response()->json($json, $code);
@@ -73,12 +76,11 @@ class UserController extends BaseController
       // jika validasi gagal
       if ($validator->fails())
       {
-        // array error
-        $error = ['email' => $validator->errors()->first('email'), 'password' => $validator->errors()->first('password'),
-          'user_name' => $validator->errors()->first('user_name')];
+
 
         //struktur json
-        $json = ['status' => '0', 'error' => $error];
+
+        $json = ['status' => '0', 'error' => $validator->errors()];
         //HTTP Code
         $code = 400;
       }
@@ -86,14 +88,16 @@ class UserController extends BaseController
       {
         //api_key random 40 char
         $apikey = base64_encode(str_random(40));
-        //create User, role_id = 2 Karena yang registrasi User
-        $data = User::create(['email' => $request['email'], 'password' => md5($request['password']),
-          'user_name' => $request['user_name'], 'role_id' => '2', 'api_key' => $apikey]);
 
-        //struktur json
-        $json = ['status' => '1', 'api_key' => $apikey];
-        //HTTP code
-        $code = 200;
+          //create User, role_id = 2 Karena yang registrasi User
+          $data = User::create(['email' => $request['email'], 'password' => md5($request['password']),
+            'user_name' => $request['user_name'], 'role_id' => '2', 'api_key' => $apikey]);
+
+          //struktur json
+          $json = ['status' => '1', 'api_key' => $apikey];
+          //HTTP code
+          $code = 200;
+
       }
 
       return response()->json($json, $code);
@@ -115,10 +119,10 @@ class UserController extends BaseController
       // jika validasi gagal
       if ($validator->fails())
       {
-        // array error
-        $error = ['email' => $validator->errors()->first('email'), 'password' => $validator->errors()->first('password')];
+
         // struktur json
-        $json = ['status' => '0', 'error' => $error];
+
+        $json = ['status' => '0', 'error' => $validator->errors()];
         // HTTP code
         $code = 400;
       }
@@ -127,13 +131,14 @@ class UserController extends BaseController
         // api_key random 40 char
         $apikey = base64_encode(str_random(40));
 
-        //update api_key agar selalu berubah key untuk keamanan
-        $data = User::where(['email' => $request['email'], 'password' => md5($request['password'])])->update(['api_key'=> $apikey]);
+          //update api_key agar selalu berubah key untuk keamanan
+          $data = User::where(['email' => $request['email'], 'password' => md5($request['password'])])->update(['api_key'=> $apikey]);
 
-        // struktur json
-        $json = ['status' => '1', 'api_key' => $apikey];
-        // HTTP code
-        $code = 200;
+          // struktur json
+          $json = ['status' => '1', 'api_key' => $apikey];
+          // HTTP code
+          $code = 200;
+
       }
 
 
