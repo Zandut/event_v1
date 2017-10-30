@@ -9,11 +9,16 @@ use App\Models\Event;
  */
 class EventController extends BaseController
 {
+
+  public function create_event(Request $request)
+  {
+    # code...
+  }
     // Parameter : -
     // Method : GET
     public function get_events()
     {
-      
+
       // Ambil data event join category
       $data = Event::join('categories', 'categories.id', '=', 'events.category_id')->get();
 
