@@ -45,8 +45,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+      // Jika authorize gate gagal
       if ($e instanceof AuthorizationException)
       {
+        // struktur json
+        // message dan HTTP code (403)
         return response()->json(['error' => $e->getMessage()], 403);
       }
       return parent::render($request, $e);

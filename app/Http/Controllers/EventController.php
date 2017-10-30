@@ -18,6 +18,7 @@ class EventController extends BaseController
     // Method : GET
     public function get_events()
     {
+      
 
       // Ambil data event join category
       $data = Event::join('categories', 'categories.id', '=', 'events.category_id')->get();
