@@ -40,11 +40,12 @@ class EventController extends BaseController
       }
       else
       {
-        // create Event
+        // create Event, is_publish = 0 (Karena belum di approve)
 
           $data = Event::create(['event_name' => $request['event_name'], 'deskripsi' => $request['deskripsi'], 'date_start' => $request['date_start'],
             'date_end' => $request['date_end'], 'price' => $request['price'], 'alamat' => $request['alamat'], 'location' => $request['location'],
-            'website' => $request['website'], 'phone_number' => $request['phone_number'], 'category_id' => $request['category_id']]);
+            'website' => $request['website'], 'phone_number' => $request['phone_number'],
+            'category_id' => $request['category_id'], 'is_publish' => '0']);
 
           //struktur json
           $json = ['status' => '1', 'data' => $data];
@@ -67,7 +68,7 @@ class EventController extends BaseController
 
 
       // Ambil data event join category
-      $data = Event::join('categories', 'categories.id', '=', 'events.category_id')->get();
+      $data = Event::join('categories', 'categories.id', '=', 'events.category_id')->where('is_publish', '1')->get();
 
       if (isset($data[0]))
       {

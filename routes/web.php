@@ -11,11 +11,9 @@
 |
 */
 
+$app->get('/get_events', 'EventController@get_events');
 $app->post('/register', 'UserController@register');
 $app->post('/login', 'UserController@login');
-
-$app->get('/get_events', 'EventController@get_events');
-
 
 $app->group(['middleware' => 'auth'], function($app)
 {

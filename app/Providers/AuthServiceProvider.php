@@ -37,17 +37,7 @@ class AuthServiceProvider extends ServiceProvider
               if(!empty($user))
               {
 
-                  //define authorize create_user
-                  Gate::define('create_user', function($user)
-                  {
-                    //role_id = 1 adalah SuperAdmin (Allow), role_id = 2 adalah User (Deny)
-                    if ($user->role_id == '1')
-                      return true;
-                    else
-                      return false;
-                  });
 
-                
                   //define authorize approve_event
                   Gate::define('approve_event', function($user)
                   {
