@@ -12,6 +12,7 @@
 */
 
 $app->get('/get_events', 'EventController@get_events');
+$app->post('/get_events', 'EventController@get_event_filter');
 $app->post('/register', 'UserController@register');
 $app->post('/login', 'UserController@login');
 
@@ -19,5 +20,6 @@ $app->group(['middleware' => 'auth'], function($app)
 {
     $app->post('/create_user', 'UserController@create_user');
     $app->post('/create_event', 'EventController@create_event');
+    $app->post('/approve_event', 'EventController@approve_event');
 
 });

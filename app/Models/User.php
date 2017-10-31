@@ -10,13 +10,10 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
 class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
+
     use Authenticatable, Authorizable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    //
     protected $fillable = [
         'user_name', 'email', 'password' ,'role_id', 'api_key'
     ];
@@ -26,6 +23,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      *
      * @var array
      */
+
+     // define column to hidden
     protected $hidden = [
         'password',
     ];

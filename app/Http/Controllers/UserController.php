@@ -34,9 +34,8 @@ class UserController extends BaseController
 
         //struktur json
 
-        $json = ['status' => '0', 'error' => $validator->errors()];
-        //HTTP Code
-        $code = 400;
+        $json = ['success' => false, 'status' => 400, 'error' => $validator->errors()];
+
       }
       else
       {
@@ -48,15 +47,14 @@ class UserController extends BaseController
             'user_name' => $request['user_name'], 'role_id' => $request['role_id'], 'api_key' => $apikey]);
 
           //struktur json
-          $json = ['status' => '1', 'api_key' => $apikey];
-          //HTTP code
-          $code = 200;
+          $json = ['success' => true, 'status' => 200, 'api_key' => $apikey];
+
 
 
 
       }
 
-      return response()->json($json, $code);
+      return response()->json($json, $json['status']);
     }
 
     // Method : post
@@ -80,9 +78,8 @@ class UserController extends BaseController
 
         //struktur json
 
-        $json = ['status' => '0', 'error' => $validator->errors()];
-        //HTTP Code
-        $code = 400;
+        $json = ['success' => false, 'status' => 400, 'error' => $validator->errors()];
+
       }
       else
       {
@@ -94,13 +91,12 @@ class UserController extends BaseController
             'user_name' => $request['user_name'], 'role_id' => '2', 'api_key' => $apikey]);
 
           //struktur json
-          $json = ['status' => '1', 'api_key' => $apikey];
-          //HTTP code
-          $code = 200;
+          $json = ['success' => true, 'status' => 200, 'api_key' => $apikey];
+
 
       }
 
-      return response()->json($json, $code);
+      return response()->json($json, $json['status']);
     }
 
 
@@ -122,9 +118,8 @@ class UserController extends BaseController
 
         // struktur json
 
-        $json = ['status' => '0', 'error' => $validator->errors()];
-        // HTTP code
-        $code = 400;
+        $json = ['success' => false, 'status' => 400, 'error' => $validator->errors()];
+
       }
       else
       {
@@ -135,15 +130,14 @@ class UserController extends BaseController
           $data = User::where(['email' => $request['email'], 'password' => md5($request['password'])])->update(['api_key'=> $apikey]);
 
           // struktur json
-          $json = ['status' => '1', 'api_key' => $apikey];
-          // HTTP code
-          $code = 200;
+          $json = ['success' => true, 'status' => 200, 'api_key' => $apikey];
+
 
       }
 
 
 
-      return response()->json($json, $code);
+      return response()->json($json, $json['status']);
 
     }
 

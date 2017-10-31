@@ -8,6 +8,10 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Illuminate\Database\QueryException;
+
 
 class Handler extends ExceptionHandler
 {
@@ -21,6 +25,7 @@ class Handler extends ExceptionHandler
         HttpException::class,
         ModelNotFoundException::class,
         ValidationException::class,
+
     ];
 
     /**
@@ -50,10 +55,31 @@ class Handler extends ExceptionHandler
       {
         // struktur json
         // message dan HTTP code (403)
-        return response()->json(['error' => $e->getMessage()], 403);
+        return response()->json(['success' => false, 'status'=> 403, 'error' => ['exception' => 'Forbidden']], 403);
       }
 
-      
-      return response()->json(['error' => $e->getMessage()], 500);
+      // Jika Route tidak ditemukan
+      if ($e instanceof NotFoundHttpException)
+      {
+        return response()->json(['success' => false, 'status'=> 404, 'error' => ['exception' => 'Http not found']], 404);
+      }
+
+      // Jika Method tidak diijikan
+      if ($e instanceof MethodNotAllowedHttpException)
+      {
+        return response()->json(['success' => false, 'status'=> 405, 'error' => ['exception' => 'Method not allowed']], 405);
+      }
+
+      // jika error query
+      if ($e instanceof QueryException)
+      {
+        return response()->json(['success' => false, 'status'=> 500, 'error' => ['exception' => $e->getMessage()]], 500);
+      }
+
+      return parent::render($request, $e);
+      // if ($e instanceof )
+
+
+      // return response()->json(['success' => false, 'status'=> '500', 'error' => $e->getMessage()], 500);
     }
 }
